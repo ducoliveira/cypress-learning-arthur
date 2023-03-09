@@ -19,16 +19,6 @@ describe('List automation', () => {
 
     lists.clickPosition('#verticalListContainer', 'li', '0')
 
-    cy.get('#demo-tab-grid').click()
-
-    lists.clickElement('#gridContainer', 'li', 'Seven')
-
-    lists.clickPosition('#gridContainer', 'li', '0')
-
-    lists.clickPosition('#gridContainer', 'li', '5')
-
-    lists.clickPosition('#gridContainer', 'li', '8')
-
   })
 
   it ('Find the desired name on the table', () => {
@@ -37,7 +27,13 @@ describe('List automation', () => {
 
     cy.visit('https://demoqa.com/webtables')
 
-    tables.clickTable('.rt-table', '.rt-tr', '.rt-td', 2, 'Gentry')
+    tables.setLocators('.rt-table', '.rt-tr', '.rt-td', 2)
+
+
+    tables.clickTable(tables.tableLocator, tables.rowLocator, tables.columnLocator, tables.columnPosition, 'Gentry')
+
+    // Função que confirma se o texto buscado está naquela coluna
+    tables.clickElement(tables.tableLocator, tables.rowLocator, tables.columnLocator, tables.columnPosition, 'Cantrell')
 
   })
 

@@ -5,8 +5,17 @@ describe('Download test', () => {
     Cypress.on("uncaught:exception", (e, runnable) => {
         return false
     })
+    
+    before('Verify if the archive exists and then delete it', () => {
 
-    it.skip('Download the archive and verify if it exists', () => {
+        const filepath = 'cypress/downloads/sampleFile.jpeg'
+
+        cy.exec('rm cypress/downloads/sampleFile.jpeg')
+        cy.readFile(filepath).should('not.exist')
+
+    })
+
+    it('Download the archive and verify if it exists', () => {
 
         cy.visit('https://demoqa.com/upload-download')
     
@@ -15,23 +24,18 @@ describe('Download test', () => {
         cy.wait(2000)
 
         cy.readFile('cypress/downloads/sampleFile.jpeg').should('exist')
-    })
-
-    it.skip('Delete the downloaded archive if it exists', () => {
-
-        cy.readFile('cypress/downloads/sampleFile.jpeg').should('exist')
-        
-        cy.exec('rm cypress/downloads/sampleFile.jpeg')
 
     })
 
-    it('Validate the text of a .txt file', () => {
+    it('Validate the text of a .txt file and writes on it', () => {
 
-        cy.readFile('cypress/archives/test.txt').then((archive) => {
+        cy.readFile('cypress/archives/test.txt')
+          .should('contain', 'Validation text')
 
-            expect(archive).to.contain('Validation text')
-            
-        })
+        cy.writeFile('cypress/archives/test.txt', '\nWriting test', { flag: 'a+'})
+        cy.readFile('cypress/archives/test.txt')
+          .should('contain', 'Writing test')
+
     })
 
 })

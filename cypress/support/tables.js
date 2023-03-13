@@ -17,12 +17,13 @@ class Tables{
     }
     
     /// Função para clicar no elemento
-    clickTable(locator, row, column, position, text){
-        this.findByPosition(locator, row, column, position, text).click()
-    }
-    /// Clone para testes
     clickElement(locator, row, column, position, text){
         this.findCellInRowByPosition(locator, row, column, position, text).click()
+    }
+
+    // Função de validação
+    assertElement(locator, row, column, position, text){
+        this.findCellInRowByPosition(locator, row, column, position, text).should('contain', text)
     }
     
     /// Funçao que encontra o texto na coluna e retorna a linha com o texto
@@ -37,14 +38,11 @@ class Tables{
     findCellInRowByPosition(locator, row, column, position, text){
         return this.findRowByText(locator, row, column, text).find(column).eq(position - 1)
     }
-    
-    /// Função teste para encontrar o texto presente na coluna
-    findByPosition(locator, row, column, position, text){
-        return cy.get(locator)
-                 .find(row)
-                 .find(`${column}:nth-child(${position})`)
-                 .contains(text)
-    }
 
+    // Função para clicar em um elemento específico na posição desejada
+    clickSpecific(locator, row, column, position, text, specific){
+        this.findCellInRowByPosition(locator, row, column, position, text).find(specific).click()
+    }
+    
 }
     export default Tables

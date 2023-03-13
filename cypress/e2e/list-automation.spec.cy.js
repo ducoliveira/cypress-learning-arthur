@@ -29,10 +29,6 @@ describe('List automation', () => {
 
     tables.setLocators('.rt-table', '.rt-tr', '.rt-td', 2)
 
-
-    tables.clickTable(tables.tableLocator, tables.rowLocator, tables.columnLocator, tables.columnPosition, 'Gentry')
-
-    // Função que confirma se o texto buscado está naquela coluna
     tables.clickElement(tables.tableLocator, tables.rowLocator, tables.columnLocator, tables.columnPosition, 'Cantrell')
 
   })

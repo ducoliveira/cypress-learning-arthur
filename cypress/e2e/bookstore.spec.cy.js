@@ -28,7 +28,7 @@ describe('BookStore Aplication tests', () => {
 
     it('Add a book to the collection', () => {
         
-        bookstore.addToCollection('Git')
+        bookstore.addToCollection('Git', 2)
         
         // const lists = new Lists()
         // const tables = new Tables()
@@ -82,9 +82,9 @@ describe('BookStore Aplication tests', () => {
 
     it('Add multiple books to the collection', () => {
 
-        bookstore.addToCollection('Git')
-        bookstore.addToCollection('Learning JavaScript')
-        bookstore.addToCollection('Programming JavaScript')
+        bookstore.addToCollection('Git', 2)
+        bookstore.addToCollection('Learning JavaScript', 2)
+        bookstore.addToCollection('Programming JavaScript', 2)
 
     })
 

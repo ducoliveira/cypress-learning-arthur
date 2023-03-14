@@ -20,11 +20,6 @@ class Tables{
     clickElement(locator, row, column, position, text){
         this.findCellInRowByPosition(locator, row, column, position, text).click()
     }
-
-    // Função de validação
-    assertElement(locator, row, column, position, text){
-        this.findCellInRowByPosition(locator, row, column, position, text).should('contain', text)
-    }
     
     /// Funçao que encontra o texto na coluna e retorna a linha com o texto
     findRowByText(locator, row, column, text){
@@ -39,10 +34,5 @@ class Tables{
         return this.findRowByText(locator, row, column, text).find(column).eq(position - 1)
     }
 
-    // Função para clicar em um elemento específico na posição desejada
-    clickSpecific(locator, row, column, position, text, specific){
-        this.findCellInRowByPosition(locator, row, column, position, text).find(specific).click()
-    }
-    
 }
     export default Tables

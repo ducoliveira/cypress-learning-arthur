@@ -33,6 +33,7 @@ Cypress.Commands.add('login', (userName, password) => {
 })
 
 Cypress.Commands.add('logout', () => {
+    cy.wait(2000)
     cy.get('#submit').click({force:true})
     cy.url().should('include', '/login')
 })

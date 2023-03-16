@@ -3,14 +3,8 @@ import commonObjects from "../commonObjects";
 // Classe BookStore que irá conter as ações dos testes
 class bookStore extends commonObjects{
 
-    // Construtor para inicializar o commonObjects e criar os locators
-    constructor () {
-        // Chamada super() para poder usar as classes filhas
-        super()
-        // Inicia o commonObjects
-        this.commonobjects = new commonObjects()
-        // Cria os locators
-        this.locators = {
+    // Cria os locators
+    locators = {
             table : '.rt-table',
             row : '.rt-tr-group',
             column: '.rt-td',
@@ -18,8 +12,8 @@ class bookStore extends commonObjects{
             delete : '#delete-record-undefined',
             addBook: '.text-right > #addNewRecordButton',
             profile: ':nth-child(6) > .element-list > .menu-list > #item-3',
-            popUpOk: '#closeSmallModal-ok'
-        }
+            modalOk: '#closeSmallModal-ok',
+            deleteAll: '.buttonWrap > .text-right > #submit'
     }
 
     // Método para adicionar itens ao carrinho passando apenas o texto
@@ -30,42 +24,54 @@ class bookStore extends commonObjects{
         cy.wait(1000)
         
         // Encontra o elemento que contém o texto e clica nele
-        this.commonobjects.lists.clickElement(this.locators.table, this.locators.element, text)
+        this.lists.clickElement(this.locators.table, this.locators.element, text)
         cy.wait(1000)
 
         // Adiciona o elemento à coleção
-        cy.get(this.locators.addBook).click({force:true})
-        cy.on('window:alert',(txt)=>{
-            expect(txt).to.contains('Book added')
-        })
+        cy.get(this.locators.addBook).click({force:true}).then(() => {})
         cy.wait(1000)
 
         // Volta ao perfil
         cy.get(this.locators.profile).click()
 
         // Verifica se o elemento foi adicionado
-        this.commonobjects.tables.findCellInRowByPosition(this.locators.table, this.locators.row, this.locators.column, position, text).should('contain', text)
+        this.tables.findCellInRowByPosition(this.locators.table, this.locators.row, this.locators.column, position, text).should('contain', text)
     }
 
     deleteFromCollection(text){
         
         cy.wait(1000)
         // Encontra elemento específico da lista do elemento com o texto
-        this.commonobjects.tables.findCellInRowByPosition(this.locators.table, this.locators.row, this.locators.column, 5, text)
+        this.tables.findCellInRowByPosition(this.locators.table, this.locators.row, this.locators.column, 5, text)
               .find(this.locators.delete).click()
         cy.wait(1000)
 
         // Clica no "Ok" da janela de confirmação
-        cy.get(this.locators.popUpOk).click()
+        cy.get(this.locators.modalOk).click()
 
-        // Valida mensagem de que o livro foi deletado
-        cy.on('window:alert',(txt)=>{
-            expect(txt).to.contains('Book deleted.')
-        })
+        this.checkBook(text)
+        
+        cy.reload()
         cy.wait(1000)
 
     }
 
+    deleteAllBooks(){
+        // Clica no botão "Delete all books"
+        cy.get(this.locators.deleteAll).click({force:true})
+        // Fecha o modal clicando no "OK"
+        cy.get(this.locators.modalOk).click()
+    }
+
+    checkEmptyTable(){
+        // Checa se a tabela está vazia
+        cy.get('.rt-noData').should('be.visible')
+    }
+
+    checkBook(text){
+        // Checa se o livro está na coleção
+        cy.get(this.locators.table).should('not.contain', text)
+    }
 
 }
 

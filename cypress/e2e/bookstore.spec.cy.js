@@ -29,31 +29,6 @@ describe('BookStore Aplication tests', () => {
     it('Add a book to the collection', () => {
         
         bookstore.addToCollection('Git', 2)
-        
-        // const lists = new Lists()
-        // const tables = new Tables()
-
-        // // Vai para a loja
-        // cy.get('#gotoStore').click()
-        // cy.wait(2000)
-
-        // // Encontra o elemento que contém "git" e clica nele
-        // lists.clickElement('.rt-table', '.action-buttons', 'Git')
-        // cy.wait(2000)
-
-        // // Adiciona o elemento à coleção
-        // cy.get('.text-right > #addNewRecordButton').click({force:true})
-        // cy.on('window:alert',(txt)=>{
-        //     expect(txt).to.contains('Book added')
-        // })
-        // cy.wait(2000)
-
-        // // Volta ao perfil
-        // cy.get(':nth-child(6) > .element-list > .menu-list > #item-3').click()
-
-        // // Verifica se o elemento foi adicionado
-        // tables.findCellInRowByPosition('.rt-table', '.rt-tr-group', '.rt-td', 2, 'Git')
-        //       .should('contain', 'Git')
 
     })
 
@@ -61,41 +36,33 @@ describe('BookStore Aplication tests', () => {
         
         bookstore.deleteFromCollection('Git')
 
-        // const tables = new Tables()
-        
-        // cy.wait(2000)
-        // // Clica no elemento específico da lista do elemento com o texto "Git"
-        // tables.findCellInRowByPosition('.rt-table', '.rt-tr-group', '.rt-td', 5, 'Git')
-        //       .find('#delete-record-undefined').click()
-        // cy.wait(2000)
-
-        // // Clica no "Ok" da janela de confirmação
-        // cy.get('#closeSmallModal-ok').click()
-
-        // // Valida mensagem de que o livro foi deletado
-        // cy.on('window:alert',(txt)=>{
-        //     expect(txt).to.contains('Book deleted.')
-        // })
-        // cy.wait(2000)
-
-    })
-
-    it('Add multiple books to the collection', () => {
-
-        bookstore.addToCollection('Git', 2)
-        bookstore.addToCollection('Learning JavaScript', 2)
-        bookstore.addToCollection('Programming JavaScript', 2)
+        bookstore.checkEmptyTable()
 
     })
 
     it('Delete multiple books from the collection', () => {
 
+        bookstore.addToCollection('Git', 2)
+        bookstore.addToCollection('Learning JavaScript', 2)
+        bookstore.addToCollection('Programming JavaScript', 2)
+
         bookstore.deleteFromCollection('Learning JavaScript')
         bookstore.deleteFromCollection('Programming JavaScript')
         bookstore.deleteFromCollection('Git')
 
+        bookstore.checkEmptyTable()
+
     })
 
+    it('Verify if the "Delete all books" button is working properly', () => {
+        
+        bookstore.addToCollection('Git', 2)
+        bookstore.addToCollection('Learning JavaScript', 2)
+        bookstore.addToCollection('Programming JavaScript', 2)
 
+        bookstore.deleteAllBooks()
+
+        bookstore.checkEmptyTable()
+    })
 
 })

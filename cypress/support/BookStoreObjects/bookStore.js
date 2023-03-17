@@ -28,7 +28,7 @@ class bookStore extends commonObjects{
         cy.wait(1000)
 
         // Adiciona o elemento à coleção
-        cy.get(this.locators.addBook).click({force:true}).then(() => {})
+        cy.get(this.locators.addBook).click({force:true})
         cy.wait(1000)
 
         // Volta ao perfil

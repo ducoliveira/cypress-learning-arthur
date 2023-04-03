@@ -1,0 +1,10 @@
+{
+    "id": 0,
+    "username": "PsAutomationTest",
+    "firstName": "Ps",
+    "lastName": "Test",
+    "email" : "PsAutomationTest@email.com",
+    "password": "PsTA12345!",
+    "phone": "12345678910",
+    "userStatus" : 0
+}

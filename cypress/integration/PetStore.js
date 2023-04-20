@@ -47,18 +47,12 @@ describe('PetStore requests', () => {
             .get('/user/login')
             .query({username : userInfo.username}, {password : userInfo.password})
             .expect(200)
-            .then((res) => {
-                console.log(res.body)
-            })
     }).timeout(50000)
 
     it('/GET Logs out current user', function() {
         return request
             .get('/user/logout')
             .expect(200)
-            .then((res) => {
-                console.log(res.body)
-            })
     }).timeout(50000)
 
     it('/DELETE Delete user', function() {
@@ -116,9 +110,6 @@ describe('PetStore requests', () => {
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({name: "Posty", status : "sold"})
             .expect(200)
-            .then((res) => {
-                console.log(res.body)
-            })
     }).timeout(50000)
 
     it('/DELETE Deletes a pet', function() {
@@ -127,4 +118,78 @@ describe('PetStore requests', () => {
             .expect(200)
     })
 
+})
+
+
+describe.only('Creates an user and confirms it', () => {
+
+    it('/POST Creat a user', function() {
+        return request
+            .post('/user')
+            .send(userInfo)
+            .expect(200)
+    }).timeout(50000)
+
+    it('/GET User by username', function() {
+        return request
+            .get(`/user/${userInfo.username}`)
+            .expect(200)
+            .then((res) => {
+                userInfo.id = res.body.id
+                assert.deepEqual(res.body, userInfo)
+            })
+    }).timeout(50000)
+
+})
+
+describe.only('Updates and existing user', () => {
+
+    userInfo.firstName = "New name"
+    userInfo.lastName = "New last name"
+
+    it('/PUT Update user', function() {
+        return request  
+            .put(`/user/${userInfo.username}`)
+            .send(userInfo)
+            .expect(200)
+    }).timeout(50000)
+
+    it('/GET User by username', function() {
+        return request
+            .get(`/user/${userInfo.username}`)
+            .expect(200)
+            .then((res) => {
+                assert.deepEqual(res.body, userInfo)
+            })
+    }).timeout(50000)
+
+    it('/DELETE Delete user', function() {
+        return request
+            .delete(`/user/${userInfo.username}`)
+            .expect(200)
+    }).timeout(50000)
+})
+
+describe.only('Deletes an existing user', () => {
+
+    it('/DELETE Delete user', function() {
+        return request
+            .delete(`/user/${userInfo.username}`)
+            .expect(200)
+    }).timeout(50000)
+})
+
+describe.only('Tries to get and delete an unexisting user', () => {
+    
+    it('/GET User by username', function() {
+        return request
+            .get(`/user/${userInfo.username}`)
+            .expect(404)
+    }).timeout(50000)
+
+    it('/DELETE Delete user', function() {
+        return request
+            .delete(`/user/${userInfo.username}`)
+            .expect(404)
+    }).timeout(50000)
 })
